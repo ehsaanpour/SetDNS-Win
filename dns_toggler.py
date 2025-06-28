@@ -69,7 +69,8 @@ class DNSToggler:
                 "refreshing_status": "Refreshing DNS status...",
                 "error_checking_dns": "Error checking DNS: {}",
                 "dns_toggler_started": "DNS Toggler started",
-                "added_custom_dns": "Added custom DNS: {} ({}, {})"
+                "added_custom_dns": "Added custom DNS: {} ({}, {})",
+                "admin_required": "Administrator privileges are required to disable DNS."
             },
             "fa": {
                 "title": "تغییر دهنده DNS",
@@ -118,7 +119,8 @@ class DNSToggler:
                 "refreshing_status": "در حال بروزرسانی وضعیت DNS...",
                 "error_checking_dns": "خطا در بررسی DNS: {}",
                 "dns_toggler_started": "تغییر دهنده DNS شروع شد",
-                "added_custom_dns": "DNS سفارشی اضافه شد: {} ({}, {})"
+                "added_custom_dns": "DNS سفارشی اضافه شد: {} ({}, {})",
+                "admin_required": "دسترسی مدیر سیستم برای غیرفعال کردن DNS اجباری است."
             }
         }
         
@@ -567,7 +569,13 @@ class DNSToggler:
                 self.current_dns_label.configure(text=f"Current DNS: {', '.join(dns_servers)}")
                 messagebox.showinfo(self.get_text('success'), self.get_text('dns_enabled_success').format(selected_dns, ', '.join(dns_servers)))
             else:
-                error_msg = self.get_text('failed_enable_dns').format(error1 or error2)
+                # Check if it's a permission error
+                error_text = error1 or error2
+                if "Access is denied" in error_text or "access denied" in error_text.lower():
+                    error_msg = f"{self.get_text('failed_enable_dns').format(error_text)}\n\n{self.get_text('admin_required')}"
+                else:
+                    error_msg = self.get_text('failed_enable_dns').format(error_text)
+                
                 self.log(error_msg)
                 messagebox.showerror(self.get_text('error'), error_msg)
         
@@ -593,7 +601,12 @@ class DNSToggler:
                 self.current_dns_label.configure(text=self.get_text('current_dns_dhcp'))
                 messagebox.showinfo(self.get_text('success'), self.get_text('dns_disabled_success'))
             else:
-                error_msg = self.get_text('failed_disable_dns').format(error)
+                # Check if it's a permission error
+                if "Access is denied" in error or "access denied" in error.lower():
+                    error_msg = f"{self.get_text('failed_disable_dns').format(error)}\n\n{self.get_text('admin_required')}"
+                else:
+                    error_msg = self.get_text('failed_disable_dns').format(error)
+                
                 self.log(error_msg)
                 messagebox.showerror(self.get_text('error'), error_msg)
         
