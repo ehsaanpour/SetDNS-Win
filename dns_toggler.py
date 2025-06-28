@@ -19,6 +19,109 @@ class DNSToggler:
         self.root.geometry("800x600")
         self.root.resizable(True, True)
         
+        # Language settings
+        self.current_language = "en"  # Default language
+        self.languages = {
+            "en": {
+                "title": "DNS Toggler",
+                "checking_status": "Checking DNS status...",
+                "current_dns_dhcp": "Current DNS: Auto (DHCP)",
+                "enable_dns": "Enable DNS",
+                "disable_dns": "Disable DNS",
+                "select_dns": "Select DNS Server:",
+                "add_custom_dns": "Add Custom DNS",
+                "about": "About",
+                "refresh_status": "Refresh Status",
+                "activity_log": "Activity Log:",
+                "dns_enabled": "DNS: Enabled",
+                "dns_disabled": "DNS: Disabled (Using DHCP)",
+                "dns_enabled_with_server": "DNS: Enabled ({})",
+                "primary": "Primary: {}",
+                "secondary": "Secondary: {}",
+                "dns_name": "DNS Name:",
+                "primary_dns": "Primary DNS:",
+                "secondary_dns": "Secondary DNS:",
+                "save": "Save",
+                "cancel": "Cancel",
+                "close": "Close",
+                "open_github": "Open GitHub Repository",
+                "about_title": "About DNS Toggler",
+                "version": "Version 1.0.0",
+                "about_text": "This software is developed by Ehsan Ehsanpour.\nThis software is open source and free. If you encounter any bugs or issues, you can open a new issue on the GitHub project at https://github.com/ehsaanpour/SetDNS-Win",
+                "language": "Language",
+                "english": "English",
+                "persian": "Persian",
+                "success": "Success",
+                "error": "Error",
+                "dns_enabled_success": "DNS enabled successfully!\nServer: {}\nAddresses: {}",
+                "dns_disabled_success": "DNS disabled successfully!\nSwitched to DHCP mode.",
+                "all_fields_required": "All fields are required!",
+                "enter_valid_ip": "Please enter valid IP addresses!",
+                "dns_name_exists": "DNS name already exists!",
+                "custom_dns_added": "Custom DNS '{}' added successfully!",
+                "failed_enable_dns": "Failed to enable DNS: {}",
+                "failed_disable_dns": "Failed to disable DNS: {}",
+                "invalid_dns_selection": "Invalid DNS selection",
+                "enabling_dns": "Enabling DNS: {} ({})",
+                "disabling_dns": "Disabling DNS (switching to DHCP)",
+                "successfully_enabled": "Successfully enabled {} DNS",
+                "successfully_disabled": "Successfully disabled DNS (DHCP enabled)",
+                "refreshing_status": "Refreshing DNS status...",
+                "error_checking_dns": "Error checking DNS: {}",
+                "dns_toggler_started": "DNS Toggler started",
+                "added_custom_dns": "Added custom DNS: {} ({}, {})"
+            },
+            "fa": {
+                "title": "تغییر دهنده DNS",
+                "checking_status": "در حال بررسی وضعیت DNS...",
+                "current_dns_dhcp": "DNS فعلی: خودکار (DHCP)",
+                "enable_dns": "فعال کردن DNS",
+                "disable_dns": "غیرفعال کردن DNS",
+                "select_dns": "انتخاب سرور DNS:",
+                "add_custom_dns": "افزودن DNS سفارشی",
+                "about": "درباره",
+                "refresh_status": "بروزرسانی وضعیت",
+                "activity_log": "گزارش فعالیت:",
+                "dns_enabled": "DNS: فعال",
+                "dns_disabled": "DNS: غیرفعال (استفاده از DHCP)",
+                "dns_enabled_with_server": "DNS: فعال ({})",
+                "primary": "اصلی: {}",
+                "secondary": "ثانویه: {}",
+                "dns_name": "نام DNS:",
+                "primary_dns": "DNS اصلی:",
+                "secondary_dns": "DNS ثانویه:",
+                "save": "ذخیره",
+                "cancel": "انصراف",
+                "close": "بستن",
+                "open_github": "باز کردن مخزن GitHub",
+                "about_title": "درباره تغییر دهنده DNS",
+                "version": "نسخه ۱.۰.۰",
+                "about_text": "این نرم افزار توسط احسان احسانپور توسعه پیدا کرده است.\nاین نرم افزار متن باز و رایگان می باشد، درصورت مشاهده هرگونه باگ یا مشکل می توانید در گیت هاب این پروژه به آدرس https://github.com/ehsaanpour/SetDNS-Win یک issue جدید باز کنید.",
+                "language": "زبان",
+                "english": "انگلیسی",
+                "persian": "فارسی",
+                "success": "موفقیت",
+                "error": "خطا",
+                "dns_enabled_success": "DNS با موفقیت فعال شد!\nسرور: {}\nآدرس‌ها: {}",
+                "dns_disabled_success": "DNS با موفقیت غیرفعال شد!\nبه حالت DHCP تغییر یافت.",
+                "all_fields_required": "تمام فیلدها الزامی هستند!",
+                "enter_valid_ip": "لطفاً آدرس‌های IP معتبر وارد کنید!",
+                "dns_name_exists": "نام DNS قبلاً وجود دارد!",
+                "custom_dns_added": "DNS سفارشی '{}' با موفقیت اضافه شد!",
+                "failed_enable_dns": "فعال کردن DNS ناموفق بود: {}",
+                "failed_disable_dns": "غیرفعال کردن DNS ناموفق بود: {}",
+                "invalid_dns_selection": "انتخاب DNS نامعتبر",
+                "enabling_dns": "در حال فعال کردن DNS: {} ({})",
+                "disabling_dns": "در حال غیرفعال کردن DNS (تغییر به DHCP)",
+                "successfully_enabled": "DNS {} با موفقیت فعال شد",
+                "successfully_disabled": "DNS با موفقیت غیرفعال شد (DHCP فعال شد)",
+                "refreshing_status": "در حال بروزرسانی وضعیت DNS...",
+                "error_checking_dns": "خطا در بررسی DNS: {}",
+                "dns_toggler_started": "تغییر دهنده DNS شروع شد",
+                "added_custom_dns": "DNS سفارشی اضافه شد: {} ({}, {})"
+            }
+        }
+        
         # DNS servers data
         self.dns_servers = {
             "Electro": ["78.157.42.100", "78.157.42.101"],
@@ -36,6 +139,64 @@ class DNSToggler:
         
         self.setup_ui()
         self.check_current_dns()
+    
+    def get_text(self, key):
+        """Get text in current language"""
+        return self.languages[self.current_language].get(key, key)
+    
+    def switch_language(self, language):
+        """Switch application language"""
+        self.current_language = language
+        self.update_ui_text()
+    
+    def update_ui_text(self):
+        """Update all UI text elements to current language"""
+        # Update window title
+        self.root.title(f"{self.get_text('title')} - Windows")
+        
+        # Update main title
+        self.title_label.configure(text=self.get_text('title'))
+        
+        # Update status label
+        if self.is_dns_enabled:
+            if self.current_dns:
+                self.status_label.configure(text=self.get_text('dns_enabled_with_server').format(self.dns_var.get()))
+            else:
+                self.status_label.configure(text=self.get_text('dns_enabled'))
+        else:
+            self.status_label.configure(text=self.get_text('dns_disabled'))
+        
+        # Update current DNS label
+        if self.current_dns:
+            self.current_dns_label.configure(text=f"Current DNS: {', '.join(self.current_dns)}")
+        else:
+            self.current_dns_label.configure(text=self.get_text('current_dns_dhcp'))
+        
+        # Update toggle button
+        if self.is_dns_enabled:
+            self.toggle_button.configure(text=self.get_text('disable_dns'))
+        else:
+            self.toggle_button.configure(text=self.get_text('enable_dns'))
+        
+        # Update selection label
+        self.selection_label.configure(text=self.get_text('select_dns'))
+        
+        # Update DNS info
+        self.update_dns_info()
+        
+        # Update button texts
+        self.add_dns_button.configure(text=self.get_text('add_custom_dns'))
+        self.about_button.configure(text=self.get_text('about'))
+        self.refresh_button.configure(text=self.get_text('refresh_status'))
+        
+        # Update log label
+        self.log_label.configure(text=self.get_text('activity_log'))
+        
+        # Update language button
+        if self.current_language == "en":
+            self.language_button.configure(text=self.get_text('persian'))
+        else:
+            self.language_button.configure(text=self.get_text('english'))
         
     def load_custom_dns(self):
         """Load custom DNS servers from file"""
@@ -56,13 +217,12 @@ class DNSToggler:
             print(f"Error saving custom DNS: {e}")
     
     def show_about(self):
-        """Show about dialog with English description"""
-        about_text = """This software is developed by Ehsan Ehsanpour.
-This software is open source and free. If you encounter any bugs or issues, you can open a new issue on the GitHub project at https://github.com/ehsaanpour/SetDNS-Win"""
+        """Show about dialog with bilingual description"""
+        about_text = self.get_text('about_text')
         
         # Create about dialog
         about_dialog = ctk.CTkToplevel(self.root)
-        about_dialog.title("About DNS Toggler")
+        about_dialog.title(self.get_text('about_title'))
         about_dialog.geometry("600x400")
         about_dialog.transient(self.root)
         about_dialog.grab_set()
@@ -76,7 +236,7 @@ This software is open source and free. If you encounter any bugs or issues, you 
         # Title
         title_label = ctk.CTkLabel(
             about_dialog,
-            text="DNS Toggler - Windows",
+            text=f"{self.get_text('title')} - Windows",
             font=ctk.CTkFont(size=24, weight="bold")
         )
         title_label.pack(pady=(20, 10))
@@ -84,7 +244,7 @@ This software is open source and free. If you encounter any bugs or issues, you 
         # Version
         version_label = ctk.CTkLabel(
             about_dialog,
-            text="Version 1.0.0",
+            text=self.get_text('version'),
             font=ctk.CTkFont(size=14)
         )
         version_label.pack(pady=(0, 20))
@@ -106,7 +266,7 @@ This software is open source and free. If you encounter any bugs or issues, you 
         
         github_button = ctk.CTkButton(
             about_dialog,
-            text="Open GitHub Repository",
+            text=self.get_text('open_github'),
             command=open_github,
             font=ctk.CTkFont(size=14),
             height=35
@@ -116,7 +276,7 @@ This software is open source and free. If you encounter any bugs or issues, you 
         # Close button
         close_button = ctk.CTkButton(
             about_dialog,
-            text="Close",
+            text=self.get_text('close'),
             command=about_dialog.destroy,
             font=ctk.CTkFont(size=14),
             height=35
@@ -130,12 +290,12 @@ This software is open source and free. If you encounter any bugs or issues, you 
         main_frame.pack(fill="both", expand=True, padx=20, pady=20)
         
         # Title
-        title_label = ctk.CTkLabel(
+        self.title_label = ctk.CTkLabel(
             main_frame, 
-            text="DNS Toggler", 
+            text=self.get_text('title'), 
             font=ctk.CTkFont(size=32, weight="bold")
         )
-        title_label.pack(pady=(20, 30))
+        self.title_label.pack(pady=(20, 30))
         
         # Status frame
         status_frame = ctk.CTkFrame(main_frame)
@@ -144,7 +304,7 @@ This software is open source and free. If you encounter any bugs or issues, you 
         # Status label
         self.status_label = ctk.CTkLabel(
             status_frame,
-            text="Checking DNS status...",
+            text=self.get_text('checking_status'),
             font=ctk.CTkFont(size=16)
         )
         self.status_label.pack(pady=10)
@@ -152,7 +312,7 @@ This software is open source and free. If you encounter any bugs or issues, you 
         # Current DNS display
         self.current_dns_label = ctk.CTkLabel(
             status_frame,
-            text="Current DNS: Auto (DHCP)",
+            text=self.get_text('current_dns_dhcp'),
             font=ctk.CTkFont(size=14)
         )
         self.current_dns_label.pack(pady=5)
@@ -160,7 +320,7 @@ This software is open source and free. If you encounter any bugs or issues, you 
         # Toggle button
         self.toggle_button = ctk.CTkButton(
             status_frame,
-            text="Enable DNS",
+            text=self.get_text('enable_dns'),
             command=self.toggle_dns,
             font=ctk.CTkFont(size=16, weight="bold"),
             height=40
@@ -172,12 +332,12 @@ This software is open source and free. If you encounter any bugs or issues, you 
         selection_frame.pack(fill="x", padx=20, pady=10)
         
         # DNS Selection label
-        selection_label = ctk.CTkLabel(
+        self.selection_label = ctk.CTkLabel(
             selection_frame,
-            text="Select DNS Server:",
+            text=self.get_text('select_dns'),
             font=ctk.CTkFont(size=18, weight="bold")
         )
-        selection_label.pack(pady=10)
+        self.selection_label.pack(pady=10)
         
         # DNS Selection combobox
         self.dns_var = ctk.StringVar(value="Electro")
@@ -207,46 +367,56 @@ This software is open source and free. If you encounter any bugs or issues, you 
         buttons_frame.pack(fill="x", padx=20, pady=10)
         
         # Add Custom DNS button
-        add_dns_button = ctk.CTkButton(
+        self.add_dns_button = ctk.CTkButton(
             buttons_frame,
-            text="Add Custom DNS",
+            text=self.get_text('add_custom_dns'),
             command=self.add_custom_dns,
             font=ctk.CTkFont(size=14),
             height=35
         )
-        add_dns_button.pack(side="left", padx=10, pady=10)
+        self.add_dns_button.pack(side="left", padx=10, pady=10)
         
         # About button
-        about_button = ctk.CTkButton(
+        self.about_button = ctk.CTkButton(
             buttons_frame,
-            text="About",
+            text=self.get_text('about'),
             command=self.show_about,
             font=ctk.CTkFont(size=14),
             height=35
         )
-        about_button.pack(side="left", padx=10, pady=10)
+        self.about_button.pack(side="left", padx=10, pady=10)
+        
+        # Language button
+        self.language_button = ctk.CTkButton(
+            buttons_frame,
+            text=self.get_text('persian'),
+            command=lambda: self.switch_language("fa" if self.current_language == "en" else "en"),
+            font=ctk.CTkFont(size=14),
+            height=35
+        )
+        self.language_button.pack(side="left", padx=10, pady=10)
         
         # Refresh button
-        refresh_button = ctk.CTkButton(
+        self.refresh_button = ctk.CTkButton(
             buttons_frame,
-            text="Refresh Status",
+            text=self.get_text('refresh_status'),
             command=self.refresh_status,
             font=ctk.CTkFont(size=14),
             height=35
         )
-        refresh_button.pack(side="right", padx=10, pady=10)
+        self.refresh_button.pack(side="right", padx=10, pady=10)
         
         # Log frame
         log_frame = ctk.CTkFrame(main_frame)
         log_frame.pack(fill="both", expand=True, padx=20, pady=10)
         
         # Log label
-        log_label = ctk.CTkLabel(
+        self.log_label = ctk.CTkLabel(
             log_frame,
-            text="Activity Log:",
+            text=self.get_text('activity_log'),
             font=ctk.CTkFont(size=16, weight="bold")
         )
-        log_label.pack(pady=10)
+        self.log_label.pack(pady=10)
         
         # Log text area
         self.log_text = ctk.CTkTextbox(
@@ -256,14 +426,14 @@ This software is open source and free. If you encounter any bugs or issues, you 
         )
         self.log_text.pack(fill="both", expand=True, padx=10, pady=10)
         
-        self.log("DNS Toggler started")
+        self.log(self.get_text('dns_toggler_started'))
     
     def update_dns_info(self, event=None):
         """Update DNS info display"""
         selected_dns = self.dns_var.get()
         if selected_dns in self.dns_servers:
             dns_servers = self.dns_servers[selected_dns]
-            info_text = f"Primary: {dns_servers[0]}\nSecondary: {dns_servers[1]}"
+            info_text = f"{self.get_text('primary').format(dns_servers[0])}\n{self.get_text('secondary').format(dns_servers[1])}"
             self.dns_info_label.configure(text=info_text)
     
     def log(self, message):
@@ -312,9 +482,9 @@ This software is open source and free. If you encounter any bugs or issues, you 
                 if "DHCP" in output:
                     self.current_dns = None
                     self.is_dns_enabled = False
-                    self.current_dns_label.configure(text="Current DNS: Auto (DHCP)")
-                    self.status_label.configure(text="DNS: Disabled (Using DHCP)")
-                    self.toggle_button.configure(text="Enable DNS")
+                    self.current_dns_label.configure(text=self.get_text('current_dns_dhcp'))
+                    self.status_label.configure(text=self.get_text('dns_disabled'))
+                    self.toggle_button.configure(text=self.get_text('enable_dns'))
                 else:
                     # Parse DNS servers from output
                     lines = output.strip().split('\n')
@@ -332,16 +502,16 @@ This software is open source and free. If you encounter any bugs or issues, you 
                         self.current_dns = dns_servers
                         self.is_dns_enabled = True
                         self.current_dns_label.configure(text=f"Current DNS: {', '.join(dns_servers)}")
-                        self.status_label.configure(text="DNS: Enabled")
-                        self.toggle_button.configure(text="Disable DNS")
+                        self.status_label.configure(text=self.get_text('dns_enabled'))
+                        self.toggle_button.configure(text=self.get_text('disable_dns'))
                     else:
                         self.current_dns = None
                         self.is_dns_enabled = False
-                        self.current_dns_label.configure(text="Current DNS: Auto (DHCP)")
-                        self.status_label.configure(text="DNS: Disabled (Using DHCP)")
-                        self.toggle_button.configure(text="Enable DNS")
+                        self.current_dns_label.configure(text=self.get_text('current_dns_dhcp'))
+                        self.status_label.configure(text=self.get_text('dns_disabled'))
+                        self.toggle_button.configure(text=self.get_text('enable_dns'))
             else:
-                self.log(f"Error checking DNS: {error}")
+                self.log(self.get_text('error_checking_dns').format(error))
         
         threading.Thread(target=check, daemon=True).start()
     
@@ -370,13 +540,13 @@ This software is open source and free. If you encounter any bugs or issues, you 
         def enable():
             selected_dns = self.dns_var.get()
             if selected_dns not in self.dns_servers:
-                self.log("Invalid DNS selection")
+                self.log(self.get_text('invalid_dns_selection'))
                 return
             
             dns_servers = self.dns_servers[selected_dns]
             adapter = self.get_active_network_adapter()
             
-            self.log(f"Enabling DNS: {selected_dns} ({', '.join(dns_servers)})")
+            self.log(self.get_text('enabling_dns').format(selected_dns, ', '.join(dns_servers)))
             
             # Set primary DNS
             success1, output1, error1 = self.run_command(
@@ -389,17 +559,17 @@ This software is open source and free. If you encounter any bugs or issues, you 
             )
             
             if success1 and success2:
-                self.log(f"Successfully enabled {selected_dns} DNS")
+                self.log(self.get_text('successfully_enabled').format(selected_dns))
                 self.is_dns_enabled = True
                 self.current_dns = dns_servers
-                self.status_label.configure(text=f"DNS: Enabled ({selected_dns})")
-                self.toggle_button.configure(text="Disable DNS")
+                self.status_label.configure(text=self.get_text('dns_enabled_with_server').format(selected_dns))
+                self.toggle_button.configure(text=self.get_text('disable_dns'))
                 self.current_dns_label.configure(text=f"Current DNS: {', '.join(dns_servers)}")
-                messagebox.showinfo("Success", f"DNS enabled successfully!\nServer: {selected_dns}\nAddresses: {', '.join(dns_servers)}")
+                messagebox.showinfo(self.get_text('success'), self.get_text('dns_enabled_success').format(selected_dns, ', '.join(dns_servers)))
             else:
-                error_msg = f"Failed to enable DNS: {error1 or error2}"
+                error_msg = self.get_text('failed_enable_dns').format(error1 or error2)
                 self.log(error_msg)
-                messagebox.showerror("Error", error_msg)
+                messagebox.showerror(self.get_text('error'), error_msg)
         
         threading.Thread(target=enable, daemon=True).start()
     
@@ -408,24 +578,24 @@ This software is open source and free. If you encounter any bugs or issues, you 
         def disable():
             adapter = self.get_active_network_adapter()
             
-            self.log("Disabling DNS (switching to DHCP)")
+            self.log(self.get_text('disabling_dns'))
             
             success, output, error = self.run_command(
                 f'netsh interface ip set dns "{adapter}" dhcp'
             )
             
             if success:
-                self.log("Successfully disabled DNS (DHCP enabled)")
+                self.log(self.get_text('successfully_disabled'))
                 self.is_dns_enabled = False
                 self.current_dns = None
-                self.status_label.configure(text="DNS: Disabled (Using DHCP)")
-                self.toggle_button.configure(text="Enable DNS")
-                self.current_dns_label.configure(text="Current DNS: Auto (DHCP)")
-                messagebox.showinfo("Success", "DNS disabled successfully!\nSwitched to DHCP mode.")
+                self.status_label.configure(text=self.get_text('dns_disabled'))
+                self.toggle_button.configure(text=self.get_text('enable_dns'))
+                self.current_dns_label.configure(text=self.get_text('current_dns_dhcp'))
+                messagebox.showinfo(self.get_text('success'), self.get_text('dns_disabled_success'))
             else:
-                error_msg = f"Failed to disable DNS: {error}"
+                error_msg = self.get_text('failed_disable_dns').format(error)
                 self.log(error_msg)
-                messagebox.showerror("Error", error_msg)
+                messagebox.showerror(self.get_text('error'), error_msg)
         
         threading.Thread(target=disable, daemon=True).start()
     
@@ -433,7 +603,7 @@ This software is open source and free. If you encounter any bugs or issues, you 
         """Add custom DNS server"""
         # Create custom dialog
         dialog = ctk.CTkToplevel(self.root)
-        dialog.title("Add Custom DNS")
+        dialog.title(self.get_text('add_custom_dns'))
         dialog.geometry("400x300")
         dialog.transient(self.root)
         dialog.grab_set()
@@ -445,21 +615,21 @@ This software is open source and free. If you encounter any bugs or issues, you 
         dialog.geometry(f"400x300+{x}+{y}")
         
         # Name entry
-        name_label = ctk.CTkLabel(dialog, text="DNS Name:", font=ctk.CTkFont(size=14))
+        name_label = ctk.CTkLabel(dialog, text=self.get_text('dns_name'), font=ctk.CTkFont(size=14))
         name_label.pack(pady=(20, 5))
         
         name_entry = ctk.CTkEntry(dialog, width=300, font=ctk.CTkFont(size=14))
         name_entry.pack(pady=5)
         
         # Primary DNS entry
-        primary_label = ctk.CTkLabel(dialog, text="Primary DNS:", font=ctk.CTkFont(size=14))
+        primary_label = ctk.CTkLabel(dialog, text=self.get_text('primary_dns'), font=ctk.CTkFont(size=14))
         primary_label.pack(pady=(10, 5))
         
         primary_entry = ctk.CTkEntry(dialog, width=300, font=ctk.CTkFont(size=14))
         primary_entry.pack(pady=5)
         
         # Secondary DNS entry
-        secondary_label = ctk.CTkLabel(dialog, text="Secondary DNS:", font=ctk.CTkFont(size=14))
+        secondary_label = ctk.CTkLabel(dialog, text=self.get_text('secondary_dns'), font=ctk.CTkFont(size=14))
         secondary_label.pack(pady=(10, 5))
         
         secondary_entry = ctk.CTkEntry(dialog, width=300, font=ctk.CTkFont(size=14))
@@ -471,15 +641,15 @@ This software is open source and free. If you encounter any bugs or issues, you 
             secondary = secondary_entry.get().strip()
             
             if not name or not primary or not secondary:
-                messagebox.showerror("Error", "All fields are required!")
+                messagebox.showerror(self.get_text('error'), self.get_text('all_fields_required'))
                 return
             
             if not self.is_valid_ip(primary) or not self.is_valid_ip(secondary):
-                messagebox.showerror("Error", "Please enter valid IP addresses!")
+                messagebox.showerror(self.get_text('error'), self.get_text('enter_valid_ip'))
                 return
             
             if name in self.dns_servers:
-                messagebox.showerror("Error", "DNS name already exists!")
+                messagebox.showerror(self.get_text('error'), self.get_text('dns_name_exists'))
                 return
             
             # Add to dictionary
@@ -493,14 +663,14 @@ This software is open source and free. If you encounter any bugs or issues, you 
             # Save to file
             self.save_custom_dns()
             
-            self.log(f"Added custom DNS: {name} ({primary}, {secondary})")
-            messagebox.showinfo("Success", f"Custom DNS '{name}' added successfully!")
+            self.log(self.get_text('added_custom_dns').format(name, primary, secondary))
+            messagebox.showinfo(self.get_text('success'), self.get_text('custom_dns_added').format(name))
             dialog.destroy()
         
         # Save button
         save_button = ctk.CTkButton(
             dialog,
-            text="Save",
+            text=self.get_text('save'),
             command=save_custom_dns,
             font=ctk.CTkFont(size=14),
             height=35
@@ -510,7 +680,7 @@ This software is open source and free. If you encounter any bugs or issues, you 
         # Cancel button
         cancel_button = ctk.CTkButton(
             dialog,
-            text="Cancel",
+            text=self.get_text('cancel'),
             command=dialog.destroy,
             font=ctk.CTkFont(size=14),
             height=35
@@ -519,7 +689,7 @@ This software is open source and free. If you encounter any bugs or issues, you 
     
     def refresh_status(self):
         """Refresh DNS status"""
-        self.log("Refreshing DNS status...")
+        self.log(self.get_text('refreshing_status'))
         self.check_current_dns()
     
     def run(self):
@@ -528,4 +698,4 @@ This software is open source and free. If you encounter any bugs or issues, you 
 
 if __name__ == "__main__":
     app = DNSToggler()
-    app.run() 
+    app.run()
