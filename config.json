@@ -1,0 +1,59 @@
+{
+  "app_settings": {
+    "theme": "dark",
+    "window_size": {
+      "width": 800,
+      "height": 600
+    },
+    "auto_refresh_interval": 30,
+    "log_max_lines": 1000
+  },
+  "dns_servers": {
+    "Electro": {
+      "primary": "78.157.42.100",
+      "secondary": "78.157.42.101",
+      "description": "Electro DNS servers"
+    },
+    "Shecan": {
+      "primary": "178.22.122.100",
+      "secondary": "185.51.200.2",
+      "description": "Shecan DNS servers"
+    },
+    "Begzar": {
+      "primary": "185.55.226.26",
+      "secondary": "185.55.225.25",
+      "description": "Begzar DNS servers"
+    },
+    "Server.ir": {
+      "primary": "65.109.177.244",
+      "secondary": "65.109.209.224",
+      "description": "Server.ir DNS servers"
+    },
+    "Shatel": {
+      "primary": "85.15.1.14",
+      "secondary": "85.15.1.15",
+      "description": "Shatel DNS servers"
+    },
+    "Radar": {
+      "primary": "10.202.10.10",
+      "secondary": "10.202.10.11",
+      "description": "Radar DNS servers"
+    },
+    "hostiran.net": {
+      "primary": "172.29.2.100",
+      "secondary": "172.29.0.100",
+      "description": "hostiran.net DNS servers"
+    }
+  },
+  "network_settings": {
+    "default_adapter": "auto",
+    "timeout": 10,
+    "retry_attempts": 3
+  },
+  "ui_settings": {
+    "show_notifications": true,
+    "minimize_to_tray": false,
+    "start_minimized": false,
+    "confirm_dns_changes": true
+  }
+} 
