@@ -46,7 +46,7 @@ class DNSToggler:
                 "close": "Close",
                 "open_github": "Open GitHub Repository",
                 "about_title": "About DNS Toggler",
-                "version": "Version 1.0.0",
+                "version": "Version 1.1.0",
                 "about_text": "This software is developed by Ehsan Ehsanpour.\nThis software is open source and free. If you encounter any bugs or issues, you can open a new issue on the GitHub project at https://github.com/ehsaanpour/SetDNS-Win",
                 "language": "Language",
                 "english": "English",
@@ -96,7 +96,7 @@ class DNSToggler:
                 "close": "بستن",
                 "open_github": "باز کردن مخزن GitHub",
                 "about_title": "درباره تغییر دهنده DNS",
-                "version": "نسخه ۱.۰.۰",
+                "version": "نسخه ۱.۱.۰",
                 "about_text": "این نرم افزار توسط احسان احسانپور توسعه پیدا کرده است.\nاین نرم افزار متن باز و رایگان می باشد، درصورت مشاهده هرگونه باگ یا مشکل می توانید در گیت هاب این پروژه به آدرس https://github.com/ehsaanpour/SetDNS-Win یک issue جدید باز کنید.",
                 "language": "زبان",
                 "english": "انگلیسی",
@@ -454,11 +454,12 @@ class DNSToggler:
                 shell=True,
                 capture_output=True,
                 text=True,
-                timeout=10
+                timeout=30,  # Increased timeout
+                creationflags=subprocess.CREATE_NO_WINDOW  # Hide console window
             )
             return result.returncode == 0, result.stdout, result.stderr
         except subprocess.TimeoutExpired:
-            return False, "", "Command timed out"
+            return False, "", "Command timed out. The DNS server might be slow or unreachable."
         except Exception as e:
             return False, "", str(e)
     
