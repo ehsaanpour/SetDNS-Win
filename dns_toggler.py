@@ -16,7 +16,7 @@ class DNSToggler:
     def __init__(self):
         self.root = ctk.CTk()
         self.root.title("DNS Toggler - Windows")
-        self.root.geometry("800x600")
+        self.root.geometry("800x900")
         self.root.resizable(True, True)
         
         # Language settings
@@ -125,7 +125,7 @@ class DNSToggler:
         }
         
         # DNS servers data
-        self.dns_servers = {
+        self.default_dns_servers = {
             "Electro": ["78.157.42.100", "78.157.42.101"],
             "Shecan": ["178.22.122.100", "185.51.200.2"],
             "Begzar": ["185.55.226.26", "185.55.225.25"],
@@ -134,6 +134,7 @@ class DNSToggler:
             "Radar": ["10.202.10.10", "10.202.10.11"],
             "hostiran.net": ["172.29.2.100", "172.29.0.100"]
         }
+        self.dns_servers = self.default_dns_servers.copy()
         
         self.current_dns = None
         self.is_dns_enabled = False
@@ -213,8 +214,13 @@ class DNSToggler:
     def save_custom_dns(self):
         """Save custom DNS servers to file"""
         try:
+            custom_dns = {}
+            for name, servers in self.dns_servers.items():
+                if name not in self.default_dns_servers or self.default_dns_servers.get(name) != servers:
+                    custom_dns[name] = servers
+            
             with open("custom_dns.json", "w") as f:
-                json.dump(self.dns_servers, f, indent=2)
+                json.dump(custom_dns, f, indent=2)
         except Exception as e:
             print(f"Error saving custom DNS: {e}")
     
@@ -342,15 +348,13 @@ class DNSToggler:
         self.selection_label.pack(pady=10)
         
         # DNS Selection combobox
-        self.dns_var = ctk.StringVar(value="Electro")
-        self.dns_combo = ctk.CTkComboBox(
-            selection_frame,
-            values=list(self.dns_servers.keys()),
-            variable=self.dns_var,
-            font=ctk.CTkFont(size=14),
-            width=200
-        )
-        self.dns_combo.pack(pady=10)
+        self.dns_var = ctk.StringVar(value="Electro" if "Electro" in self.dns_servers else "")
+        
+        # DNS Selection scrollable frame
+        self.dns_scroll_frame = ctk.CTkScrollableFrame(selection_frame, height=120)
+        self.dns_scroll_frame.pack(fill="x", padx=10, pady=5)
+
+        self.populate_dns_list()
         
         # DNS info display
         self.dns_info_label = ctk.CTkLabel(
@@ -361,7 +365,6 @@ class DNSToggler:
         self.dns_info_label.pack(pady=5)
         
         # Update DNS info when selection changes
-        self.dns_combo.bind("<<ComboboxSelected>>", self.update_dns_info)
         self.update_dns_info()
         
         # Buttons frame
@@ -430,13 +433,68 @@ class DNSToggler:
         
         self.log(self.get_text('dns_toggler_started'))
     
+    def populate_dns_list(self):
+        """Populate the DNS server list in the UI"""
+        # Clear existing widgets
+        for widget in self.dns_scroll_frame.winfo_children():
+            widget.destroy()
+        
+        dns_names = list(self.dns_servers.keys())
+        if not dns_names:
+            no_server_label = ctk.CTkLabel(self.dns_scroll_frame, text="No DNS servers available.")
+            no_server_label.pack(pady=10)
+            return
+
+        for dns_name in dns_names:
+            entry_frame = ctk.CTkFrame(self.dns_scroll_frame)
+            entry_frame.pack(fill="x", padx=5, pady=3, expand=True)
+            
+            radio_button = ctk.CTkRadioButton(
+                entry_frame,
+                text=dns_name,
+                variable=self.dns_var,
+                value=dns_name,
+                command=self.update_dns_info
+            )
+            radio_button.pack(side="left", padx=(5, 0))
+
+            remove_button = ctk.CTkButton(
+                entry_frame,
+                text="X",
+                command=lambda name=dns_name: self.remove_dns(name),
+                width=28,
+                height=28,
+                fg_color="transparent",
+                text_color=("#FF0000", "#FF0000"),
+                hover_color=("#e0e0e0", "#404040")
+            )
+            remove_button.pack(side="right", padx=(0, 5))
+
+    def remove_dns(self, dns_name_to_remove):
+        """Remove a DNS server from the list"""
+        if dns_name_to_remove in self.dns_servers:
+            del self.dns_servers[dns_name_to_remove]
+            self.save_custom_dns()
+            self.log(f"Removed DNS server: {dns_name_to_remove}")
+            
+            if self.dns_var.get() == dns_name_to_remove:
+                if self.dns_servers:
+                    self.dns_var.set(list(self.dns_servers.keys())[0])
+                else:
+                    self.dns_var.set("")
+            
+            self.populate_dns_list()
+            self.update_dns_info()
+
     def update_dns_info(self, event=None):
         """Update DNS info display"""
         selected_dns = self.dns_var.get()
-        if selected_dns in self.dns_servers:
+        if selected_dns and selected_dns in self.dns_servers:
             dns_servers = self.dns_servers[selected_dns]
             info_text = f"{self.get_text('primary').format(dns_servers[0])}\n{self.get_text('secondary').format(dns_servers[1])}"
             self.dns_info_label.configure(text=info_text)
+        else:
+            self.dns_info_label.configure(text="")
     
     def log(self, message):
         """Add message to log"""
@@ -670,9 +728,8 @@ class DNSToggler:
             self.dns_servers[name] = [primary, secondary]
             
             # Update combobox
-            current_values = list(self.dns_combo.cget("values"))
-            current_values.append(name)
-            self.dns_combo.configure(values=current_values)
+            self.populate_dns_list()
+            self.dns_var.set(name)
             
             # Save to file
             self.save_custom_dns()
